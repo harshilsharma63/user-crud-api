@@ -1,0 +1,41 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven {
+		url "s3://maven-repo-0152156d-cfca-4bd6-8f27-2c6425102251.s3.ap-south-1.amazonaws.com/release"
+		credentials(AwsCredentials) {
+			accessKey AWS_ACCESS_KEY
+			secretKey AWS_SECRET_KEY
+		}
+	}
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('com.harshil:user-dao-plugin:6.1.1')
+	runtime('org.postgresql:postgresql')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.flywaydb:flyway-core:4.2.0')
+
+}
